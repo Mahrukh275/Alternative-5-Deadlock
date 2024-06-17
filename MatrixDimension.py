@@ -6,11 +6,11 @@ def matrix_dimension():
     print("Geben Sie die Elemente der Matrix ein: ")
     matrix = []
     for i in range(zeilen):
-        zeilen = []
+        zeile = []
         for j in range(spalten):
             element = input("Element [{i}][{j}]: ")
-            zeilen.append(element)
-    matrix.append(zeilen)
+            zeile.append(element)
+    matrix.append(zeile)
 
     return matrix
 

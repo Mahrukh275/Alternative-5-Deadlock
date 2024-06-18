@@ -1,3 +1,4 @@
+
 def matrix_dimension():
     print("Geben Sie die Dimension der Matrix ein: ")
     zeilen = int(input("Anzahl der Zeilen: "))
@@ -18,3 +19,5 @@ matrix = matrix_dimension()
 print("Die eingegebene Matrix ist: ")
 for zeile in matrix:
     print(zeile)
+
+

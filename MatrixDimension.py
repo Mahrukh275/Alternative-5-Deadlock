@@ -33,13 +33,16 @@ for zeile in matrix:
 def is_deadlock (ressourcentypen, matrix): #anforderungsmatrix fehlt noch
     #Initialisierung von:
     work = ressourcentypen[:]
-    request = [5,7,4]
-             [2,3,4] #Eingabe code und Datei wird noch gemacht
-    
+    request = [
+            [5,7,4],
+             [2,3,4],
+             [0,0,0]
+        ]#Eingabe code und Datei wird noch gemacht
+
     finish = [False]*len(ressourcentypen)
 
     for i in range (len(matrix)):
-      if request [i][j] == 0 for j in range(len(ressourcentypen)):
+      if all (request [i][j] == 0 for j in range(len(ressourcentypen))):
           finish [i] = True
       else:
           finish[i]= False

@@ -20,5 +20,21 @@ def datei_überprüfung(dateipfad):
         belegungsmatrix = read_matrix(args.belegungsmatrix)
         anforderungsmatrix = read_matrix(args.anforderungsmatrix)
         
-    def read_vector()
+    def read_vector(filepath):
+
+        matrix = []
+
+        with open(filepath, 'r') as file:
+        #'r' steht nur für das Lesen der Datei
+            for line in file:
+        #Schleife, um jede Zeile der Datei einzulesen
+            line.strip().split()
+        #line.strip() entfernt Leerzeichen
+        matrix.append([float(num) for num in line.strip().split()])
+        #float??
+
+        return matrix
+
+
+
 

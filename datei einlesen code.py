@@ -19,3 +19,6 @@ def datei_überprüfung(dateipfad):
         ressourcenvektor = read_vector(args.ressourcenvektor)
         belegungsmatrix = read_matrix(args.belegungsmatrix)
         anforderungsmatrix = read_matrix(args.anforderungsmatrix)
+        
+    def read_vector()
+

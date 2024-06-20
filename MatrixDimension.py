@@ -1,3 +1,18 @@
+def read_matrix_from_file(file_path):
+    matrix = []
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                stripped_line = line.strip()
+                if stripped_line:
+                    row = list(map(int, stripped_line.split()))
+                    matrix.append(row)
+    except FileNotFoundError:
+        print(f"Die Datei {file_path} wurde nicht gefunden.")
+    except ValueError:
+        print("Es gab einen Fehler beim Konvertieren der Werte. Stellen Sie sicher, dass alle Werte ganze Zahlen sind.")
+
+    return matrix
 #Eingabe des Ressourcenvektors
 ressourcen_laenge = int(input("Geben Sie die Anzahl der Ressourcen ein: "))
 ressourcentypen = []

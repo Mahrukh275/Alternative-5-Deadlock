@@ -13,6 +13,11 @@ def read_matrix_from_file(file_path):
         print("Es gab einen Fehler beim Konvertieren der Werte. Stellen Sie sicher, dass alle Werte ganze Zahlen sind.")
 
     return matrix
+    #Beispiel für die Nutzung der Funktion
+file_path = "matrix.txt"
+matrix = read_matrix_from_file(file_path)
+print(matrix)
+
 #Eingabe des Ressourcenvektors
 ressourcen_laenge = int(input("Geben Sie die Anzahl der Ressourcen ein: "))
 ressourcentypen = []

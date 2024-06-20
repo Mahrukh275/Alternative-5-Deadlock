@@ -60,5 +60,5 @@ def is_deadlock (ressourcentypen, matrix): #anforderungsmatrix fehlt noch
         print("Deadlock erkannt.")
 
 
-
+#Ausgabe der Methode
 is_deadlock(ressourcentypen, matrix)

@@ -6,13 +6,13 @@ def datei_überprüfung(dateipfad):
     # datei_überprüfung ist die Methode bzw. Argument
     # dateipfad ist das Argument, welches angenommen wird
 
-    if os.path.isfile(dateipfad):
+    if __name__ == "__main__":
         parser = argparse.ArgumentParser(description="Datei zum Einlesen des Ressourcenvektors, Belegungsmatrix und Anforderungsmatrix.")
         parser.add_argument('-ressourcenvektor', type=str, help='Datei für Ressourcenvektor')
         parser.add_argument('-belegungsmatrix', type=str, help='Datei für Belegungsmatrix')
         parser.add_argument('-anforderungsmatrix', type=str, help='Datei für Anforderungsmatrix')
         # str, weil der Wert des Arguments als Zeichenkette behandelt wird, da ein Dateiname eine Zeichenkette ist
-        args = parser.parse_args(['-ressourcenvektor',dateipfad, '-belegungsmatrix',dateipfad,'-anforderungsmatrix', dateipfad])
+        args = parser.parse_args()
         # damit das Programm die Informationen versteht und verarbeiten kann
 
         ressourcenvektor = read_vector(args.ressourcenvektor)
@@ -34,7 +34,4 @@ def read_vector(filepath):
 
 def read_matrix(filepath):
     return read_vector(filepath)
-
-if __name__ == "__main__":
-    
 

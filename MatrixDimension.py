@@ -2,11 +2,13 @@ def read_matrix_from_file(file_path):
     matrix = []
     try:
         with open(file_path, 'r') as file:
+            #Die Datei wird im Lesemodus geöffnet ('r')
             for line in file:
                 stripped_line = line.strip()
                 if stripped_line:
                     row = list(map(int, stripped_line.split()))
                     matrix.append(row)
+    #Fehlerbehandlung
     except FileNotFoundError:
         print(f"Die Datei {file_path} wurde nicht gefunden.")
     except ValueError:

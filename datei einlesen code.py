@@ -27,6 +27,7 @@ def read_matrix(file_path):
     datei_überprüfung(file_path)
     with open(file_path,'r') as file:
         matrix = [list(map(int,line.strip().split()))for line in file]
+        # erklärung fehlt!
     return matrix
 
 def main():

@@ -1,0 +1,12 @@
+import random
+ def waehle_prozess(interaktiv, beendet, anforderung, verfuegbar):
+     if interaktiv:
+         optionen = [i for i, beendet in enumerate(beendet) if not beendet and np.all(anforderung[i] >= verfuegbar)]
+         # enumerate wurde verwendet, um über eine Liste von Prozessen zu iterieren und gleichzeitig den Index jedes Prozesses zu verfolgen
+         print(f"Prozesse, die fortgesetzt werden können: {optionen}")
+         #Ein f-string erlaubt es dir, Variablen und Ausdrücke innerhalb eines Strings direkt zu interpolieren, ohne dass du explizit Konkatenation oder andere Formatierungsmethoden verwenden musst.
+         auswahl = int(input("Wählen Sie den nächsten auszuführenden Prozess: "))
+         return auswahl
+     else:
+         moeglichkeiten = [i for i, beendet in enumerate(beendet) if not beendet np.all(anforderung[i] <= verfuegbar)]
+         return random.choice(moeglichkeiten)

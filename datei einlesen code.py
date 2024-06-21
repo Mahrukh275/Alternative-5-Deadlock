@@ -19,9 +19,9 @@ def read_vector(file_path):
          # 'r' steht nur für das Lesen der Datei
             vector = list(map(int, file.readline().strip().split()))
         return vector
-        # return vector, damit der vector zur weiterverarbeitung der deadlock Erkennung verwendet werden kann
+# return vector, damit der vector zur weiterverarbeitung der deadlock Erkennung verwendet werden kann
 
-     # except valueError:....
+# except valueError
 
 def read_matrix(file_path):
     datei_überprüfung(file_path)
@@ -39,10 +39,22 @@ def main():
     args = parser.parse_args()
     # damit das Programm die Informationen versteht und verarbeiten kann
 
-    ressourcenvektor = read_vector(args.ressourcenvektor)
-    belegungsmatrix = read_matrix(args.belegungsmatrix)
-    anforderungsmatrix = read_matrix(args.anforderungsmatrix)
-        
+    if args.ressourcenvektor:
+       ressourcenvektor =read_vector(args.ressourcenvektor)
 
+    else:
+       # manuelle eingabe
 
+    if args.belegungsmatrix:
+        belegungsmatrix = read_matrix(args.belegungsmatrix)
+
+    else:
+
+    if args.anforderungsmatrix:
+        anforderungsmatrix = anforderungsmatrix_read(args.anforderungsmatrix)
+    else:
+
+if __name__ == "__main__":
+    main()
+    # erklärung fehlt
 

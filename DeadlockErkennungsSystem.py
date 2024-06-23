@@ -36,6 +36,14 @@ def read_matrix(file_path):
          print("Fehler beim Konvertieren der Werte. Stellen Sie sicher, dass alle Werte ganze Zahlen sind.")
          sys.exit(1)
 
+
+#Eingabe des Ressourcenvektors
+ressourcen_laenge = int(input("Geben Sie die Anzahl der Ressourcen ein: "))
+ressourcentypen = []
+for i in range (ressourcen_laenge):
+    eingabe = int(input("Geben Sie dir Ressource "+str(i+1)+" ein: "))
+    ressourcentypen.append(eingabe)
+
 def matrix_dimension():
         print("Geben Sie die Dimension der Matrix ein: ")
         zeilen = int(input("Anzahl der Zeilen: "))
@@ -86,20 +94,17 @@ def main():
     args = parser.parse_args()
     # damit das Programm die Informationen versteht und verarbeiten kann
 
-    if args.ressourcenvektor:
+    if args.ressourcenvektor and args.anforderungsmatrix and args.belegungsmatrix:
        ressourcenvektor =read_vector(args.ressourcenvektor)
+       belegungsmatrix = read_matrix(args.belegungsmatrix)
+       anforderungsmatrix = read_matrix(args.anforderungsmatrix)
 
     else:
        resssourcenvektor =is_deadlock()
+       belegungsmatrix = matrix_dimension()
+       anforderungsmatrix = matrix_dimension()
 
-    if args.belegungsmatrix:
-        belegungsmatrix = read_matrix(args.belegungsmatrix)
 
-    else:
-
-    if args.anforderungsmatrix:
-        anforderungsmatrix = anforderungsmatrix_read(args.anforderungsmatrix)
-    else:
 
 if __name__ == "__main__":
     main()

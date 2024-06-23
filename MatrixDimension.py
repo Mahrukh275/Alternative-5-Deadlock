@@ -38,9 +38,9 @@ def matrix_dimension():
     for i in range(zeilen):
         zeile = []
         for j in range(spalten):
-            element = input("Element [{i}][{j}]: ")
+            element = input(f"Element [{i}][{j}]: ")
             zeile.append(element)
-    matrix.append(zeile)
+        matrix.append(zeile)
 
     return matrix
 

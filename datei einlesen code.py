@@ -14,7 +14,6 @@ def datei_überprüfung(dateipfad):
 def read_vector(file_path):
    datei_überprüfung(file_path)
     #try....
-
         with open(filepath, 'r') as file:
          # 'r' steht nur für das Lesen der Datei
             vector = list(map(int, file.readline().strip().split()))

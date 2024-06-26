@@ -1,6 +1,7 @@
 import os
 import argparse
 import sys
+import logging
 
 
 def datei_überprüfung(dateipfad):
@@ -82,9 +83,18 @@ def main():
     parser.add_argument('-ressourcenvektor', type=str, help='Datei für Ressourcenvektor')
     parser.add_argument('-belegungsmatrix', type=str, help='Datei für Belegungsmatrix')
     parser.add_argument('-anforderungsmatrix', type=str, help='Datei für Anforderungsmatrix')
+    parser.add_argument('-logdatei', type=str, help='Datei für Logdatei')
     # str, weil der Wert des Arguments als Zeichenkette behandelt wird, da ein Dateiname eine Zeichenkette ist
     args = parser.parse_args()
     # damit das Programm die Informationen versteht und verarbeiten kann
+
+    if args.logdatei:
+        logging.basicConfig(filename=args.logdatei, level = logging.INFO)
+        log = logging.getLogger()
+    else:
+        log = none
+    # erklärung fehlt
+
 
     if args.ressourcenvektor:
        ressourcenvektor =read_vector(args.ressourcenvektor)

@@ -104,6 +104,30 @@ def main():
     # damit das Programm die Informationen versteht und verarbeiten kann
 
     if args.logdatei:
+        logging.basicConfig(filename=args.logdatei, level=logging.INFO)
+        log = logging.getLogger()
+    else:
+        log = none
+        # erklärung fehlt
+
+        if args.ressourcenvektor:
+            if args.ressourcenvektor and args.anforderungsmatrix and args.belegungsmatrix:
+                ressourcenvektor = read_vector(args.ressourcenvektor)
+                belegungsmatrix = read_matrix(args.belegungsmatrix)
+                anforderungsmatrix = read_matrix(args.anforderungsmatrix)
+
+            else:
+                resssourcenvektor = eingabe_ressourcenvektor()
+                belegungsmatrix = matrix_dimension()
+                anforderungsmatrix = matrix_dimension()
+
+        is_deadlock(resssourcenvektor, belegungsmatrix, anforderungsmatrix)
+
+    if __name__ == "__main__":
+        main()
+        # erklärung fehlt
+
+    if args.logdatei:
         logging.basicConfig(filename=args.logdatei, level = logging.INFO)
         log = logging.getLogger()
     else:
@@ -111,7 +135,6 @@ def main():
     # erklärung fehlt
 
 
-    if args.ressourcenvektor:
     if args.ressourcenvektor and args.anforderungsmatrix and args.belegungsmatrix:
        ressourcenvektor =read_vector(args.ressourcenvektor)
        belegungsmatrix = read_matrix(args.belegungsmatrix)

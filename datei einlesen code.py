@@ -38,11 +38,13 @@ def main():
     args = parser.parse_args()
     # damit das Programm die Informationen versteht und verarbeiten kann
 
-    if args.ressourcenvektor:
+    if args.ressourcenvektor and arg.belegungsmatrix and arg.anforderungsmatrix:
        ressourcenvektor =read_vector(args.ressourcenvektor)
+       belegungsmatrix = read_matrix(args.belegungsmatrix)
+       anforderungsmatrix = read_matrix(args.anforderungsmatrix)
 
     else:
-       # manuelle eingabe
+       ressourcenvektor =
 
     if args.belegungsmatrix:
         belegungsmatrix = read_matrix(args.belegungsmatrix)

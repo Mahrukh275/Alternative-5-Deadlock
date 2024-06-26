@@ -37,6 +37,17 @@ def read_matrix(file_path):
          print("Fehler beim Konvertieren der Werte. Stellen Sie sicher, dass alle Werte ganze Zahlen sind.")
          sys.exit(1)
 
+
+#Eingabe des Ressourcenvektors
+def eingabe_ressourcenvektor():
+ ressourcen_laenge = int(input("Geben Sie die Anzahl der Ressourcen ein: "))
+ ressourcenvektor = []
+ for i in range (ressourcen_laenge):
+    eingabe = int(input("Geben Sie dir Ressource "+str(i+1)+" ein: "))
+    ressourcenvektor.append(eingabe)
+
+ return ressourcenvektor
+
 def matrix_dimension():
         print("Geben Sie die Dimension der Matrix ein: ")
         zeilen = int(input("Anzahl der Zeilen: "))
@@ -47,7 +58,7 @@ def matrix_dimension():
         for i in range(zeilen):
             zeile = []
             for j in range(spalten):
-                element = input(f"Element [{i}][{j}]: ")
+                element = int(input(f"Element [{i}][{j}]: "))
                 zeile.append(element)
             matrix.append(zeile)
 
@@ -56,21 +67,25 @@ def matrix_dimension():
 def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     #Initialisierung von:
     work = ressourcentypen[:]
-    finish = [False]*len(ressourcentypen)
+    finish = [False]*len(belegungsmatrix)
+
+    for i in range(len(belegungsmatrix)):
+            if all(anforderungsmatrix[i][j] == 0 for j in range(len(ressourcentypen))):
+                finish[i] = True
 
     while True:
+        progress = False
+          # Index i suchen
         for i in range(len(belegungsmatrix)):
-            if all(request[i][j] == 0 for j in range(len(ressourcentypen))):
-                finish[i] = True
-            else:
-                finish[i] = False
-
-            # Index i suchen :
-        for i in range(len(matrix)):
-            if not finish[i] and all(request[i][j] <= work[j] for j in range(len(ressourcentypen))):
+            if not finish[i] and all(anforderungsmatrix[i][j] <= work[j] for j in range(len(ressourcentypen))):
                 for j in range(len(ressourcentypen)):
-                    work[j] += matrix[i][j]
+                    work[j] += belegungsmatrix[i][j]
                 finish[i] = True
+                progress = True
+                break
+
+        if not progress:
+            break
 
         if all(finish):
             print("Keinen Deadlock erkannt.")
@@ -97,20 +112,19 @@ def main():
 
 
     if args.ressourcenvektor:
+    if args.ressourcenvektor and args.anforderungsmatrix and args.belegungsmatrix:
        ressourcenvektor =read_vector(args.ressourcenvektor)
+       belegungsmatrix = read_matrix(args.belegungsmatrix)
+       anforderungsmatrix = read_matrix(args.anforderungsmatrix)
 
     else:
-       resssourcenvektor =is_deadlock()
+       resssourcenvektor = eingabe_ressourcenvektor()
+       belegungsmatrix = matrix_dimension()
+       anforderungsmatrix = matrix_dimension()
 
-    if args.belegungsmatrix:
-        belegungsmatrix = read_matrix(args.belegungsmatrix)
 
-    else:
-
-    if args.anforderungsmatrix:
-        anforderungsmatrix = anforderungsmatrix_read(args.anforderungsmatrix)
-    else:
-
+    is_deadlock(resssourcenvektor,belegungsmatrix,anforderungsmatrix)
 if __name__ == "__main__":
     main()
     # erklärung fehlt
+

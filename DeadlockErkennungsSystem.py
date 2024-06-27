@@ -13,14 +13,14 @@ def datei_überprüfung(dateipfad):
         #sys.exit(1) dient dazu um das Programm zu beenden
 
 def read_vector(file_path):
-   datei_überprüfung(file_path)
-   try:
+    datei_überprüfung(file_path)
+    try:
         with open(file_path, 'r') as file:
          # 'r' steht nur für das Lesen der Datei
             vector = list(map(int, file.readline().strip().split()))
         return vector
 # return vector, damit der vector zur weiterverarbeitung der deadlock Erkennung verwendet werden kann
-   except ValueError:
+    except ValueError:
         print("Es gab einen Fehler beim Konvertieren der Werte. Stellen Sie sicher, dass alle Werte ganze Zahlen sind.")
         sys.exit(1)
 
@@ -107,7 +107,7 @@ def main():
         logging.basicConfig(filename=args.logdatei, level=logging.INFO)
         log = logging.getLogger()
     else:
-        log = none
+        log = None
         # erklärung fehlt
 
         if args.ressourcenvektor:

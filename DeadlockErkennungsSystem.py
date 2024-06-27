@@ -46,7 +46,7 @@ def read_matrix(file_path):
 #Eingabe des Ressourcenvektors
 def eingabe_ressourcenvektor():
  ressourcen_laenge = int(input("Geben Sie die Anzahl der Ressourcen ein: "))
- ressourcenvektor = []
+ ressourcenvektor = []  #statisch
  for i in range (ressourcen_laenge):
     eingabe = int(input("Geben Sie dir Ressource "+str(i+1)+" ein: "))
     ressourcenvektor.append(eingabe)
@@ -71,7 +71,7 @@ def matrix_dimension():
 
 def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     #Initialisierung von:
-    work = ressourcentypen[:]
+    work = ressourcentypen[:] #dynamisch
     finish = [False]*len(belegungsmatrix)
 
     for i in range(len(belegungsmatrix)):

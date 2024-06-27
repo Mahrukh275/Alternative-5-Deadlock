@@ -5,22 +5,30 @@ import logging
 
 
 def datei_überprüfung(dateipfad):
-    # datei_überprüfung ist die Methode bzw. Argument
+    # Überprüft, ob die Datei am angegebenen Pfad existiert
     # dateipfad ist das Argument, welches angenommen wird
     if not os.path.isfile(dateipfad):
         print("Datei existiert nicht!")
         sys.exit(1)
-        #sys.exit(1) dient dazu um das Programm zu beenden
+        #sys.exit(1) Beendet das Programm mit Statuscode 1
 
 def read_vector(file_path):
     datei_überprüfung(file_path)
     try:
+    #Liest einen Vektor aus einer Datei
+   datei_überprüfung(file_path)
+   try:
         with open(file_path, 'r') as file:
          # 'r' steht nur für das Lesen der Datei
+         # Öffnet die Datei im Lesemodus
             vector = list(map(int, file.readline().strip().split()))
+         # Liest die erste Zeile der Datei, entfernt führende und nachfolgende Leerzeichen,
+         # teilt sie in einzelne Werte und konvertiert sie in ganze Zahlen
         return vector
+        
 # return vector, damit der vector zur weiterverarbeitung der deadlock Erkennung verwendet werden kann
     except ValueError:
+       # Fehlerbehandlung für den Fall, dass die Konvertierung in ganze Zahlen fehlschlägt
         print("Es gab einen Fehler beim Konvertieren der Werte. Stellen Sie sicher, dass alle Werte ganze Zahlen sind.")
         sys.exit(1)
 

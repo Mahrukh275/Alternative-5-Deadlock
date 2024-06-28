@@ -7,7 +7,7 @@ import logging
 def datei_überprüfung(dateipfad):
     # Überprüft, ob die Datei am angegebenen Pfad existiert
     if not os.path.isfile(dateipfad):
-        raise FileNotFoundError("Datei existiert nicht!" + dateipfad)
+        print ("Datei existiert nicht!" + dateipfad)
 
 
 def read_vector(file_path):
@@ -21,9 +21,9 @@ def read_vector(file_path):
             # teilt sie in einzelne Werte und konvertiert sie in ganze Zahlen
         return vector
     # return vector, damit der vector zur weiterverarbeitung der deadlock Erkennung verwendet werden kann
-    except ValueError as e:
+    except ValueError:
         # Fehlerbehandlung für den Fall, dass die Konvertierung in ganze Zahlen fehlschlägt
-        print("Es gab einen Fehler beim Konvertieren der Werte:.", str(e))
+        print("Es gab einen Fehler beim Konvertieren der Werte, es können nur ganzzahlige Werte eingelesen werden.")
         raise
 
 # except valueError
@@ -35,8 +35,8 @@ def read_matrix(file_path):
             # Liest auch alle Zeilen der Datei, entfernt führende und nachfolgende Leerzeichen, teilt sie in einzelne Werte und konvertiert sie in ganzen Zahlen
             matrix = [list(map(int,line.strip().split()))for line in file]
        return matrix
-    except ValueError as e:
-         print("Fehler beim Konvertieren der Werte:.", str(e))
+    except ValueError:
+         print("Fehler beim Konvertieren der Werte, es können nur ganzzahlige Werte eingelesen werden.")
          raise
 
 
@@ -111,39 +111,32 @@ def main():
         log = None
         # erklärung fehlt
 
-    try:
-
-       if args.ressourcenvektor and args.belegungsmatrix and args.anforderungsmatrix:
+    if args.ressourcenvektor and args.belegungsmatrix and args.anforderungsmatrix:
         ressourcenvektor = read_vector(args.ressourcenvektor)
         belegungsmatrix = read_matrix(args.belegungsmatrix)
         anforderungsmatrix = read_matrix(args.anforderungsmatrix)
 
-       else:
+    else:
         ressourcenvektor = eingabe_ressourcenvektor()
         belegungsmatrix = matrix_dimension()
         anforderungsmatrix = matrix_dimension()
 
 
        # Überprüfen, ob die Dimensionen der Matrizen korrekt sind
-       if len(belegungsmatrix) != len(anforderungsmatrix):
+    if len(belegungsmatrix) != len(anforderungsmatrix):
         print("Die Anzahl der Zeilen in der Belegungs- und Anforderungsmatrix muss gleich sein.")
         sys.exit(1)
 
-       if len(belegungsmatrix[0]) != len(ressourcenvektor) or len(anforderungsmatrix[0]) != len(ressourcenvektor):
+    if len(belegungsmatrix[0]) != len(ressourcenvektor) or len(anforderungsmatrix[0]) != len(ressourcenvektor):
         print("Die Anzahl der Spalten in den Matrizen muss mit der Länge des Ressourcevektors übereinstimmen.")
         sys.exit(1)
 
-       result = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
-       print(result)
+    result = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
+    print(result)
 
-       if log:
-           log.info("Ressourcenvektor: %s", ressourcenvektor)
-           log.info("Belegungsmatrix: %s", belegungsmatrix)
-           log.info("Anforderungsmatrix: %s", anforderungsmatrix)
-
-    except (FileNotFoundError, ValueError) as e:
-        print("Fehler:", str(e))
-        sys.exit(1)
+    if log:
+        for entry in log_entries:
+            log.info(entry)
 
 if __name__ == "__main__":
     main()

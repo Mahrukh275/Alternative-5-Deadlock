@@ -6,11 +6,9 @@ import logging
 
 def datei_überprüfung(dateipfad):
     # Überprüft, ob die Datei am angegebenen Pfad existiert
-    # dateipfad ist das Argument, welches angenommen wird
     if not os.path.isfile(dateipfad):
-        print("Datei existiert nicht!")
-        sys.exit(1)
-        # sys.exit(1) Beendet das Programm mit Statuscode 1
+        raise FileNotFoundError("Datei existiert nicht!" + dateipfad)
+
 
 def read_vector(file_path):
     datei_überprüfung(file_path)
@@ -23,10 +21,10 @@ def read_vector(file_path):
             # teilt sie in einzelne Werte und konvertiert sie in ganze Zahlen
         return vector
     # return vector, damit der vector zur weiterverarbeitung der deadlock Erkennung verwendet werden kann
-    except ValueError:
+    except ValueError as e:
         # Fehlerbehandlung für den Fall, dass die Konvertierung in ganze Zahlen fehlschlägt
-        print("Es gab einen Fehler beim Konvertieren der Werte. Stellen Sie sicher, dass alle Werte ganze Zahlen sind.")
-        sys.exit(1)
+        print("Es gab einen Fehler beim Konvertieren der Werte:.", str(e))
+        raise
 
 # except valueError
 
@@ -34,12 +32,12 @@ def read_matrix(file_path):
     datei_überprüfung(file_path)
     try:
        with open(file_path,'r') as file:
+            # Liest auch alle Zeilen der Datei, entfernt führende und nachfolgende Leerzeichen, teilt sie in einzelne Werte und konvertiert sie in ganzen Zahlen
             matrix = [list(map(int,line.strip().split()))for line in file]
-        # erklärung fehlt!
        return matrix
-    except ValueError:
-         print("Fehler beim Konvertieren der Werte. Stellen Sie sicher, dass alle Werte ganze Zahlen sind.")
-         sys.exit(1)
+    except ValueError as e:
+         print("Fehler beim Konvertieren der Werte:.", str(e))
+         raise
 
 
 #Eingabe des Ressourcenvektors
@@ -49,7 +47,6 @@ def eingabe_ressourcenvektor():
  for i in range (ressourcen_laenge):
     eingabe = int(input("Geben Sie die Ressource "+str(i+1)+" ein: "))
     ressourcenvektor.append(eingabe)
-
  return ressourcenvektor
 
 def matrix_dimension():
@@ -74,8 +71,8 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     finish = [False]*len(belegungsmatrix)
 
     for i in range(len(belegungsmatrix)):
-            if all(anforderungsmatrix[i][j] == 0 for j in range(len(ressourcentypen))):
-                finish[i] = True
+        if all(anforderungsmatrix[i][j] == 0 for j in range(len(ressourcentypen))):
+            finish[i] = True
 
     while True:
         progress = False
@@ -114,46 +111,40 @@ def main():
         log = None
         # erklärung fehlt
 
-    if args.ressourcenvektor and args.anforderungsmatrix and args.belegungsmatrix:
+    try:
+
+       if args.ressourcenvektor and args.belegungsmatrix and args.anforderungsmatrix:
         ressourcenvektor = read_vector(args.ressourcenvektor)
         belegungsmatrix = read_matrix(args.belegungsmatrix)
         anforderungsmatrix = read_matrix(args.anforderungsmatrix)
 
-    else:
+       else:
         ressourcenvektor = eingabe_ressourcenvektor()
         belegungsmatrix = matrix_dimension()
         anforderungsmatrix = matrix_dimension()
 
-        is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
 
-    if __name__ == "__main__":
-        main()
-        # erklärung fehlt
+       # Überprüfen, ob die Dimensionen der Matrizen korrekt sind
+       if len(belegungsmatrix) != len(anforderungsmatrix):
+        print("Die Anzahl der Zeilen in der Belegungs- und Anforderungsmatrix muss gleich sein.")
+        sys.exit(1)
 
-    if args.logdatei:
-        logging.basicConfig(filename=args.logdatei, level = logging.INFO)
-        log = logging.getLogger()
-    else:
-        log = none
-    # erklärung fehlt
+       if len(belegungsmatrix[0]) != len(ressourcenvektor) or len(anforderungsmatrix[0]) != len(ressourcenvektor):
+        print("Die Anzahl der Spalten in den Matrizen muss mit der Länge des Ressourcevektors übereinstimmen.")
+        sys.exit(1)
 
+       result = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
+       print(result)
 
-    if args.ressourcenvektor and args.anforderungsmatrix and args.belegungsmatrix:
-       ressourcenvektor =read_vector(args.ressourcenvektor)
-       belegungsmatrix = read_matrix(args.belegungsmatrix)
-       anforderungsmatrix = read_matrix(args.anforderungsmatrix)
+       if log:
+           log.info("Ressourcenvektor: %s", ressourcenvektor)
+           log.info("Belegungsmatrix: %s", belegungsmatrix)
+           log.info("Anforderungsmatrix: %s", anforderungsmatrix)
 
-    else:
-       resssourcenvektor = eingabe_ressourcenvektor()
-       belegungsmatrix = matrix_dimension()
-       anforderungsmatrix = matrix_dimension()
+    except (FileNotFoundError, ValueError) as e:
+        print("Fehler:", str(e))
+        sys.exit(1)
 
-
-    log_entries = is_deadlock(ressourcenvektor,belegungsmatrix,anforderungsmatrix)
-
-    if log:
-        for entry in log_entries:
-            log.info(entry)
 if __name__ == "__main__":
     main()
     # erklärung fehlt

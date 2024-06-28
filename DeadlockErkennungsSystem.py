@@ -10,25 +10,21 @@ def datei_überprüfung(dateipfad):
     if not os.path.isfile(dateipfad):
         print("Datei existiert nicht!")
         sys.exit(1)
-        #sys.exit(1) Beendet das Programm mit Statuscode 1
+        # sys.exit(1) Beendet das Programm mit Statuscode 1
 
 def read_vector(file_path):
     datei_überprüfung(file_path)
     try:
-    #Liest einen Vektor aus einer Datei
-   datei_überprüfung(file_path)
-   try:
         with open(file_path, 'r') as file:
-         # 'r' steht nur für das Lesen der Datei
-         # Öffnet die Datei im Lesemodus
+            # 'r' steht nur für das Lesen der Datei
+            # Öffnet die Datei im Lesemodus
             vector = list(map(int, file.readline().strip().split()))
-         # Liest die erste Zeile der Datei, entfernt führende und nachfolgende Leerzeichen,
-         # teilt sie in einzelne Werte und konvertiert sie in ganze Zahlen
+            # Liest die erste Zeile der Datei, entfernt führende und nachfolgende Leerzeichen,
+            # teilt sie in einzelne Werte und konvertiert sie in ganze Zahlen
         return vector
-        
-# return vector, damit der vector zur weiterverarbeitung der deadlock Erkennung verwendet werden kann
+    # return vector, damit der vector zur weiterverarbeitung der deadlock Erkennung verwendet werden kann
     except ValueError:
-       # Fehlerbehandlung für den Fall, dass die Konvertierung in ganze Zahlen fehlschlägt
+        # Fehlerbehandlung für den Fall, dass die Konvertierung in ganze Zahlen fehlschlägt
         print("Es gab einen Fehler beim Konvertieren der Werte. Stellen Sie sicher, dass alle Werte ganze Zahlen sind.")
         sys.exit(1)
 
@@ -51,7 +47,7 @@ def eingabe_ressourcenvektor():
  ressourcen_laenge = int(input("Geben Sie die Anzahl der Ressourcen ein: "))
  ressourcenvektor = []
  for i in range (ressourcen_laenge):
-    eingabe = int(input("Geben Sie dir Ressource "+str(i+1)+" ein: "))
+    eingabe = int(input("Geben Sie die Ressource "+str(i+1)+" ein: "))
     ressourcenvektor.append(eingabe)
 
  return ressourcenvektor
@@ -118,18 +114,17 @@ def main():
         log = None
         # erklärung fehlt
 
-        if args.ressourcenvektor:
-            if args.ressourcenvektor and args.anforderungsmatrix and args.belegungsmatrix:
-                ressourcenvektor = read_vector(args.ressourcenvektor)
-                belegungsmatrix = read_matrix(args.belegungsmatrix)
-                anforderungsmatrix = read_matrix(args.anforderungsmatrix)
+    if args.ressourcenvektor and args.anforderungsmatrix and args.belegungsmatrix:
+        ressourcenvektor = read_vector(args.ressourcenvektor)
+        belegungsmatrix = read_matrix(args.belegungsmatrix)
+        anforderungsmatrix = read_matrix(args.anforderungsmatrix)
 
-            else:
-                resssourcenvektor = eingabe_ressourcenvektor()
-                belegungsmatrix = matrix_dimension()
-                anforderungsmatrix = matrix_dimension()
+    else:
+        ressourcenvektor = eingabe_ressourcenvektor()
+        belegungsmatrix = matrix_dimension()
+        anforderungsmatrix = matrix_dimension()
 
-        is_deadlock(resssourcenvektor, belegungsmatrix, anforderungsmatrix)
+        is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
 
     if __name__ == "__main__":
         main()

@@ -149,7 +149,11 @@ def main():
        anforderungsmatrix = matrix_dimension()
 
 
-    is_deadlock(resssourcenvektor,belegungsmatrix,anforderungsmatrix)
+    log_entries = is_deadlock(ressourcenvektor,belegungsmatrix,anforderungsmatrix)
+
+    if log:
+        for entry in log_entries:
+            log.info(entry)
 if __name__ == "__main__":
     main()
     # erklärung fehlt

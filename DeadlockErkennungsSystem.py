@@ -49,12 +49,12 @@ def eingabe_ressourcenvektor():
     ressourcenvektor.append(eingabe)
  return ressourcenvektor
 
-def matrix_dimension():
-        print("Geben Sie die Dimension der Matrix ein: ")
+def matrix_dimension(matrix_name):
+        print(f"Geben Sie die Dimension der {matrix_name} ein: ")
         zeilen = int(input("Anzahl der Zeilen: "))
         spalten = int(input("Anzahl der Spalten: "))
 
-        print("Geben Sie die Elemente der Matrix ein: ")
+        print(f"Geben Sie die Elemente der {matrix_name} ein: ")
         matrix = []
         for i in range(zeilen):
             zeile = []
@@ -70,9 +70,14 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     work = ressourcentypen[:] #dynamisch
     finish = [False]*len(belegungsmatrix)
 
+
     for i in range(len(belegungsmatrix)):
         if all(anforderungsmatrix[i][j] == 0 for j in range(len(ressourcentypen))):
-            finish[i] = True
+           finish.append(True)
+        else:
+            finish.append(False)
+            continue
+
 
     while True:
         progress = False
@@ -88,10 +93,10 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
         if not progress:
             break
 
-        if all(finish):
-            print("Keinen Deadlock erkannt.")
-        else:
-            print("Deadlock erkannt.")
+    if all(finish):
+       return "Keinen Deadlock erkannt."
+    else:
+        return "Deadlock erkannt"
 
 
 def main():
@@ -120,8 +125,8 @@ def main():
 
        else:
         ressourcenvektor = eingabe_ressourcenvektor()
-        belegungsmatrix = matrix_dimension()
-        anforderungsmatrix = matrix_dimension()
+        belegungsmatrix = matrix_dimension("Belegungsmatrix")
+        anforderungsmatrix = matrix_dimension("Anforderungsmatrix")
 
 
        # Überprüfen, ob die Dimensionen der Matrizen korrekt sind

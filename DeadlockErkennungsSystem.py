@@ -2,6 +2,7 @@ import os
 import argparse
 import sys
 import logging
+import random
 
 
 def datei_überprüfung(dateipfad):
@@ -65,6 +66,16 @@ def matrix_dimension(matrix_name):
             matrix.append(zeile)
 
         return matrix
+    def hole_benutzereingabe_matrix(aufforderung):
+    """Erhalte eine Matrix durch Benutzereingabe"""
+    print(aufforderung)
+    zeilen = int(input("Anzahl der Zeilen: "))
+    spalten = int(input("Anzahl der Spalten: "))
+    matrix = []
+    for i in range(zeilen):
+        zeile = list(map(int, input(f"Geben Sie Zeile {i+1} ein: ").split()))
+        matrix.append(zeile)
+    return matrix
 
 # Funktion zur Überprüfung auf Deadlock
 def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):

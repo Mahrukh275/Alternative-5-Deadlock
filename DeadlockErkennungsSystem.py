@@ -66,7 +66,7 @@ def matrix_dimension(matrix_name):
             matrix.append(zeile)
 
         return matrix
-    def hole_benutzereingabe_matrix(aufforderung):
+def hole_benutzereingabe_matrix(aufforderung):
     """Erhalte eine Matrix durch Benutzereingabe"""
     print(aufforderung)
     zeilen = int(input("Anzahl der Zeilen: "))

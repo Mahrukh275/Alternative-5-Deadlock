@@ -6,15 +6,19 @@ def waehle_prozess(interaktiv, beendet, anforderung, verfuegbar):
 #beendet: Liste, die anzeigt, ob ein Prozess beendet ist oder nicht.
 #anforderung: Die Anforderungsmatrix der Prozesse.
 #verfuegbar: Der Vektor der verfügbaren Ressourcen.
+
     if interaktiv:
 
         optionen = [i for i, fertig in enumerate(beendet) if not fertig and np.all(anforderung[i] <= verfuegbar)]
 #optionen: Liste der Prozesse, die fortgesetzt werden können.
+
         print(f"Prozesse, die fortgesetzt werden können: {optionen}")
         auswahl = int(input("Wählen Sie den nächsten auszuführenden Prozess: "))
 #auswahl: Der vom Benutzer ausgewählte Prozess.
+
         return auswahl
     else:
         moeglichkeiten = [i for i, fertig in enumerate(beendet) if not fertig and np.all(anforderung[i] <= verfuegbar)]
 #moeglichkeiten: Liste der Prozesse, die fortgesetzt werden können, aus der zufällig gewählt wird.
+
         return random.choice(moeglichkeiten)

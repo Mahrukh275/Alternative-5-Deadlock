@@ -140,7 +140,8 @@ def main():
         sys.exit(1)
 
     result, deadlock_log = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
-    log_entries.extend(deadlock_log)
+    
+    steps_log.extend(deadlock_log)
 
     if result:
         print("Deadlock erkannt")

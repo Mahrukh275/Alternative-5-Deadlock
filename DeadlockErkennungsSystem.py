@@ -7,7 +7,7 @@ import logging
 def datei_überprüfung(dateipfad):
     # Überprüft, ob die Datei am angegebenen Pfad existiert
     if not os.path.isfile(dateipfad):
-        print ("Datei existiert nicht!" + dateipfad)
+        print (f"Datei existiert nicht! {dateipfad}")
         sys.exit(1)
 
 
@@ -71,6 +71,7 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     #Initialisierung von:
     work = ressourcentypen[:] #dynamisch
     finish = [False]*len(belegungsmatrix) #Liste für den Abschlusszustand der Prozesse
+    steps_log = []
 
     while True:
         progress = False
@@ -85,9 +86,9 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
             break
     # Guckt, ob ein Deadlock vorliegt oder nicht
     if all(finish):
-       return False # Kein Deadlock
+       return False, steps_log # Kein Deadlock
     else:
-       return True # Deadlock
+       return True, steps_log # Deadlock
 
 # Hauptfunktion
 def main():
@@ -127,16 +128,23 @@ def main():
         print("Die Anzahl der Spalten in den Matrizen muss mit der Länge des Ressourcevektors übereinstimmen.")
         sys.exit(1)
 
-    result = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
+    result, deadlock_log = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
+    log_entries.extend(deadlock_log)
+
     if result:
         print("Deadlock erkannt")
     else:
         print ("Kein Deadlock erkannt")
 
-    if log:
-        log_entries = []
-        for entry in log_entries:
-            log.info(entry)
+    steps_log = []
+    steps_log.append(f"Ressourcenvektor: {ressourcenvektor}")
+    steps_log.append(f"Belegungsmatrix: {belegungsmatrix}")
+    steps_log.append(f"Anforderungsmatrix: {anforderungsmatrix}")
+
+    if logger:
+        for entry in steps_log:
+            logger.info(entry)
+
 
 if __name__ == "__main__":
     main()

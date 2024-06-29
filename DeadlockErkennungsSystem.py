@@ -64,6 +64,26 @@ def matrix_dimension():
             matrix.append(zeile)
 
         return matrix
+    import random
+import numpy as np
+
+def waehle_prozess(interaktiv, beendet, anforderung, verfuegbar):
+#interaktiv: Gibt an, ob der Benutzer interaktiv gefragt werden soll.
+#beendet: Liste, die anzeigt, ob ein Prozess beendet ist oder nicht.
+#anforderung: Die Anforderungsmatrix der Prozesse.
+#verfuegbar: Der Vektor der verfügbaren Ressourcen.
+    if interaktiv:
+
+        optionen = [i for i, fertig in enumerate(beendet) if not fertig and np.all(anforderung[i] <= verfuegbar)]
+#optionen: Liste der Prozesse, die fortgesetzt werden können.
+        print(f"Prozesse, die fortgesetzt werden können: {optionen}")
+        auswahl = int(input("Wählen Sie den nächsten auszuführenden Prozess: "))
+#auswahl: Der vom Benutzer ausgewählte Prozess.
+        return auswahl
+    else:
+        moeglichkeiten = [i for i, fertig in enumerate(beendet) if not fertig and np.all(anforderung[i] <= verfuegbar)]
+#moeglichkeiten: Liste der Prozesse, die fortgesetzt werden können, aus der zufällig gewählt wird.
+        return random.choice(moeglichkeiten)
 
 def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     #Initialisierung von:

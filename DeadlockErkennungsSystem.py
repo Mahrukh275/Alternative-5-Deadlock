@@ -73,10 +73,9 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
 
     for i in range(len(belegungsmatrix)):
         if all(anforderungsmatrix[i][j] == 0 for j in range(len(ressourcentypen))):
-           finish.append(True)
+           finish [i] = True
         else:
-            finish.append(False)
-            continue
+            finish[i] = False
 
 
     while True:
@@ -96,7 +95,7 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     if all(finish):
        return "Keinen Deadlock erkannt."
     else:
-        return "Deadlock erkannt"
+       return "Deadlock erkannt"
 
 
 def main():

@@ -1,7 +1,5 @@
-import random
-
 def hole_benutzereingabe_matrix(aufforderung):
- """Erhalte eine Matrix durch Benutzereingabe"""
+    """Erhalte eine Matrix durch Benutzereingabe"""
     print(aufforderung)
     zeilen = int(input("Anzahl der Zeilen: "))
     spalten = int(input("Anzahl der Spalten: "))

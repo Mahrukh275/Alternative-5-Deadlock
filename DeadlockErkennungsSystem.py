@@ -65,7 +65,7 @@ def matrix_dimension():
             matrix.append(zeile)
 
         return matrix
-   import random
+import random
 
 def hole_benutzereingabe_matrix(aufforderung):
     """Erhalte eine Matrix durch Benutzereingabe"""

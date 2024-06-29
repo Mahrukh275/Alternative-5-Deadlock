@@ -21,11 +21,15 @@ matrix = read_matrix_from_file(file_path)
 print(matrix)
 
 #Eingabe des Ressourcenvektors
-ressourcen_laenge = int(input("Geben Sie die Anzahl der Ressourcen ein: "))
-ressourcentypen = []
-for i in range (ressourcen_laenge):
+def eingabe_ressourcenvektor():
+  ressourcen_laenge = int(input("Geben Sie die Anzahl der Ressourcen ein: "))
+  ressourcentypen = []
+
+  for i in range (ressourcen_laenge):
     eingabe = int(input("Geben Sie dir Ressource "+str(i+1)+" ein: "))
     ressourcentypen.append(eingabe)
+
+  return ressourcentypen
 
 
 def matrix_dimension():
@@ -83,4 +87,4 @@ def is_deadlock (ressourcentypen, matrix): #anforderungsmatrix fehlt noch
 
 
 #Ausgabe der Methode
-is_deadlock(ressourcentypen, matrix)
+is_deadlock()

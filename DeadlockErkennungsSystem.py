@@ -2,6 +2,7 @@ import os
 import argparse
 import sys
 import logging
+import random
 
 
 def datei_überprüfung(dateipfad):
@@ -67,7 +68,7 @@ def matrix_dimension():
    import random
 
 def hole_benutzereingabe_matrix(aufforderung):
- """Erhalte eine Matrix durch Benutzereingabe"""
+    """Erhalte eine Matrix durch Benutzereingabe"""
     print(aufforderung)
     zeilen = int(input("Anzahl der Zeilen: "))
     spalten = int(input("Anzahl der Spalten: "))
@@ -76,6 +77,7 @@ def hole_benutzereingabe_matrix(aufforderung):
         zeile = list(map(int, input(f"Geben Sie Zeile {i+1} ein: ").split()))
         matrix.append(zeile)
     return matrix
+
 def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     #Initialisierung von:
     work = ressourcentypen[:] #dynamisch

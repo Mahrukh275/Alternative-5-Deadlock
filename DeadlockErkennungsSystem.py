@@ -112,12 +112,14 @@ def main():
     args = parser.parse_args()
     # damit das Programm die Informationen versteht und verarbeiten kann
 
+
     if args.logdatei:
         logging.basicConfig(filename=args.logdatei, level=logging.INFO)
-        log = logging.getLogger()
+        logger = logging.getLogger()
     else:
-        log = None
+        logger = None
 
+    steps_log = []
 
     if args.ressourcenvektor and args.belegungsmatrix and args.anforderungsmatrix:
         ressourcenvektor = read_vector(args.ressourcenvektor)
@@ -140,9 +142,13 @@ def main():
         sys.exit(1)
 
     result, deadlock_log = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
-    
-    steps_log.extend(deadlock_log)
 
+    if deadlock_log is None:
+        print("Fehler: is_deadlock() hat keinen deadlock_log zurückgegeben.")
+        sys.exit(1)
+
+    steps_log.extend(deadlock_log)
+    
     if result:
         print("Deadlock erkannt")
     else:

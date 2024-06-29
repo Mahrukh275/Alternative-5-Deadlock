@@ -72,21 +72,11 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     work = ressourcentypen[:] #dynamisch
     finish = [False]*len(belegungsmatrix) #Liste für den Abschlusszustand der Prozesse
 
-    # Überprüfen, ob ein Prozess in den Endzustand übergehen kann
-    for i in range(len(belegungsmatrix)):
-        if all(anforderungsmatrix[i][j] == 0 for j in range(len(ressourcentypen))):
-           finish [i] = True
-        else:
-            finish[i] = False
-
-
     while True:
         progress = False
           # Index i suchen
         for i in range(len(belegungsmatrix)):
             if not finish[i] and all(anforderungsmatrix[i][j] <= work[j] for j in range(len(ressourcentypen))):
-                for j in range(len(ressourcentypen)):
-                    work[j] += belegungsmatrix[i][j]
                 finish[i] = True
                 progress = True
                 break
@@ -95,9 +85,9 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
             break
     # Guckt, ob ein Deadlock vorliegt oder nicht
     if all(finish):
-       return "Keinen Deadlock erkannt."
+       return False # Kein Deadlock
     else:
-       return "Deadlock erkannt"
+       return True # Deadlock
 
 # Hauptfunktion
 def main():
@@ -138,7 +128,10 @@ def main():
         sys.exit(1)
 
     result = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
-    print(result)
+    if result:
+        print("Deadlock erkannt")
+    else:
+        print ("Kein Deadlock erkannt")
 
     if log:
         log_entries = []

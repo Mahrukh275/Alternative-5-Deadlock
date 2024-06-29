@@ -8,6 +8,7 @@ def datei_überprüfung(dateipfad):
     # Überprüft, ob die Datei am angegebenen Pfad existiert
     if not os.path.isfile(dateipfad):
         print ("Datei existiert nicht!" + dateipfad)
+        sys.exit(1)
 
 
 def read_vector(file_path):
@@ -24,7 +25,7 @@ def read_vector(file_path):
     except ValueError:
         # Fehlerbehandlung für den Fall, dass die Konvertierung in ganze Zahlen fehlschlägt
         print("Es gab einen Fehler beim Konvertieren der Werte, es können nur ganzzahlige Werte eingelesen werden.")
-        raise
+        sys.exit(1)
 
 # except valueError
 
@@ -37,7 +38,7 @@ def read_matrix(file_path):
        return matrix
     except ValueError:
          print("Fehler beim Konvertieren der Werte, es können nur ganzzahlige Werte eingelesen werden.")
-         raise
+         sys.exit(1)
 
 
 #Eingabe des Ressourcenvektors
@@ -65,12 +66,13 @@ def matrix_dimension(matrix_name):
 
         return matrix
 
+# Funktion zur Überprüfung auf Deadlock
 def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     #Initialisierung von:
     work = ressourcentypen[:] #dynamisch
-    finish = [False]*len(belegungsmatrix)
+    finish = [False]*len(belegungsmatrix) #Liste für den Abschlusszustand der Prozesse
 
-
+    # Überprüfen, ob ein Prozess in den Endzustand übergehen kann
     for i in range(len(belegungsmatrix)):
         if all(anforderungsmatrix[i][j] == 0 for j in range(len(ressourcentypen))):
            finish [i] = True
@@ -91,13 +93,13 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
 
         if not progress:
             break
-
+    # Guckt, ob ein Deadlock vorliegt oder nicht
     if all(finish):
        return "Keinen Deadlock erkannt."
     else:
        return "Deadlock erkannt"
 
-
+# Hauptfunktion
 def main():
     parser = argparse.ArgumentParser(description="Datei zum Einlesen des Ressourcenvektors, Belegungsmatrix und Anforderungsmatrix.")
     parser.add_argument('-ressourcenvektor', type=str, help='Datei für Ressourcenvektor')
@@ -113,7 +115,7 @@ def main():
         log = logging.getLogger()
     else:
         log = None
-        # erklärung fehlt
+
 
     if args.ressourcenvektor and args.belegungsmatrix and args.anforderungsmatrix:
         ressourcenvektor = read_vector(args.ressourcenvektor)
@@ -139,10 +141,10 @@ def main():
     print(result)
 
     if log:
+        log_entries = []
         for entry in log_entries:
             log.info(entry)
 
 if __name__ == "__main__":
     main()
-    # erklärung fehlt
 

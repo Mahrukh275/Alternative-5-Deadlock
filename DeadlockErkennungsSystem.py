@@ -100,7 +100,7 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
        return False, steps_log # Kein Deadlock
     else:
        return True, steps_log # Deadlock
-
+    # wird in steps_log aufgenommen, damit dies in die Logdatei aufgenommen werden kann
 # Hauptfunktion
 def main():
     parser = argparse.ArgumentParser(description="Datei zum Einlesen des Ressourcenvektors, Belegungsmatrix und Anforderungsmatrix.")
@@ -115,11 +115,13 @@ def main():
 
     if args.logdatei:
         logging.basicConfig(filename=args.logdatei, level=logging.INFO)
+        # falls der Benutzer eine Logdatei erstellen möchte, werden die Einträge protokolliert
         logger = logging.getLogger()
     else:
         logger = None
 
     steps_log = []
+    # Schritte des Programms werden aufgezeichnet
 
     if args.ressourcenvektor and args.belegungsmatrix and args.anforderungsmatrix:
         ressourcenvektor = read_vector(args.ressourcenvektor)
@@ -142,13 +144,14 @@ def main():
         sys.exit(1)
 
     result, deadlock_log = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
-
+    # deadlock_log protokolliert während der Deadlock Überprüfung
     if deadlock_log is None:
         print("Fehler: is_deadlock() hat keinen deadlock_log zurückgegeben.")
         sys.exit(1)
 
     steps_log.extend(deadlock_log)
-    
+    # Zusammenführung beider Logs für die vollständige Aufzeichnung des Programms
+
     if result:
         print("Deadlock erkannt")
     else:
@@ -158,10 +161,12 @@ def main():
     steps_log.append(f"Ressourcenvektor: {ressourcenvektor}")
     steps_log.append(f"Belegungsmatrix: {belegungsmatrix}")
     steps_log.append(f"Anforderungsmatrix: {anforderungsmatrix}")
+    # Werte werden in die Logdatei geschrieben
 
     if logger:
         for entry in steps_log:
             logger.info(entry)
+            # Ergebnis wird hiermit aufgenommen
 
 
 if __name__ == "__main__":

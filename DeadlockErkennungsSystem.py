@@ -103,7 +103,7 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
     # wird in steps_log aufgenommen, damit dies in die Logdatei aufgenommen werden kann
 # Hauptfunktion
 def main():
-    parser = argparse.ArgumentParser(description="Datei zum Einlesen des Ressourcenvektors, Belegungsmatrix und Anforderungsmatrix.")
+    parser = argparse.ArgumentParser(description="Datei zum Einlesen des Ressourcenvektors, Belegungsmatrix und Anforderungsmatrix.(Optional eine Logdatei)")
     parser.add_argument('-ressourcenvektor', type=str, help='Datei für Ressourcenvektor')
     parser.add_argument('-belegungsmatrix', type=str, help='Datei für Belegungsmatrix')
     parser.add_argument('-anforderungsmatrix', type=str, help='Datei für Anforderungsmatrix')

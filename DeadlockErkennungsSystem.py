@@ -75,55 +75,40 @@ def matrix_dimension(matrix_name):
 
 # Funktion zur Überprüfung auf Deadlock
 def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix, noninteractive=False):
-    #Initialisierung von:
-    work = ressourcentypen[:] #dynamisch
-    finish = [False]*len(belegungsmatrix) #Liste für den Abschlusszustand der Prozesse
+    work = ressourcentypen[:]  # Kopie der verfügbaren Ressourcen
+    finish = [False] * len(belegungsmatrix)  # Liste für den Abschlusszustand der Prozesse
     steps_log = []
 
     while True:
         progress = False
         available_processes = []
 
-          # Index i suchen
         for i in range(len(belegungsmatrix)):
             if not finish[i] and all(anforderungsmatrix[i][j] <= work[j] for j in range(len(ressourcentypen))):
                 available_processes.append(i)
-                
+
         if not available_processes:
             break
 
         if noninteractive:
-             # Wenn der nicht-interaktive Modus aktiviert ist, wählt einen zufälligen Prozess aus den verfügbaren Prozessen aus
             next_process = random.choice(available_processes)
             print(f"Zufällig ausgewählter Prozess: {next_process}")
         else:
-            # Wenn der interaktive Modus aktiviert ist, fördert den Benutzer auf, einen Prozess auszuwählen
             print("Mehrere Prozesse können ausgeführt werden:")
             for process in available_processes:
                 print(f"Prozess {process}")
             next_process = int(input("Welcher Prozess soll als nächstes ausgeführt werden? "))
 
-
         for j in range(len(ressourcentypen)):
             work[j] += belegungsmatrix[next_process][j]
 
-        if not any(finish):
-            finish[next_process] = True
-            steps_log.append(f"Ausgeführt: Prozess {next_process}")
-
-    if all(finish):
-        # Markieret den ausgewählten Prozess als abgeschlossen und füge ihn zum Schritt-Log hinzu
         finish[next_process] = True
         steps_log.append(f"Ausgeführt: Prozess {next_process}")
 
-    # Überprüft, ob alle Prozesse abgeschlossen sind
-
-    if all(finish):
-        return False, steps_log  # Kein Deadlock
+    if not any(finish):
+        return True, steps_log  # Deadlock erkannt
     else:
-        return True, steps_log  # Deadlock
-        
-    # wird in steps_log aufgenommen, damit dies in die Logdatei aufgenommen werden kann
+        return False, steps_log  # Kein Deadlock
 # Hauptfunktion
 def main():
     parser = argparse.ArgumentParser(description="Datei zum Einlesen des Ressourcenvektors, Belegungsmatrix und Anforderungsmatrix.(Optional eine Logdatei)")

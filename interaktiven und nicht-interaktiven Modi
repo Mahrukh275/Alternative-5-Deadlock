@@ -1,20 +1,20 @@
-import random
-import numpy as np
+if noninteraktive:
+  # Wenn der nicht-interaktive Modus aktiviert ist, wähle einen zufälligen Prozess aus den verfügbaren Prozessen aus
+  next_process = random.choice(available_processes)
+  print(f"Zufällig ausgewählter Prozess: {next_process}")
+else: 
+   # Wenn der interaktive Modus aktiviert ist, fordere den Benutzer auf, einen Prozess auszuwählen
+   print("Mehrere Prozesse können ausgeführt werden:")
+   for process in available_processes:
+       print(f"Prozess {process}")
+   next_process = int(input("Welcher Prozess soll als nächstes ausgeführt werden? "))
+# Markiere den ausgewählten Prozess als abgeschlossen und füge ihn zum Schritt-Log hinzu
+finish[next_process] = True
+steps_log.append(f"Ausgeführt: Prozess {next_process}")
 
-def waehle_prozess(interaktiv, beendet, anforderung, verfuegbar):
-#interaktiv: Gibt an, ob der Benutzer interaktiv gefragt werden soll.
-#beendet: Liste, die anzeigt, ob ein Prozess beendet ist oder nicht.
-#anforderung: Die Anforderungsmatrix der Prozesse.
-#verfuegbar: Der Vektor der verfügbaren Ressourcen.
-    if interaktiv:
-
-        optionen = [i for i, fertig in enumerate(beendet) if not fertig and np.all(anforderung[i] <= verfuegbar)]
-#optionen: Liste der Prozesse, die fortgesetzt werden können.
-        print(f"Prozesse, die fortgesetzt werden können: {optionen}")
-        auswahl = int(input("Wählen Sie den nächsten auszuführenden Prozess: "))
-#auswahl: Der vom Benutzer ausgewählte Prozess.
-        return auswahl
-    else:
-        moeglichkeiten = [i for i, fertig in enumerate(beendet) if not fertig and np.all(anforderung[i] <= verfuegbar)]
-#moeglichkeiten: Liste der Prozesse, die fortgesetzt werden können, aus der zufällig gewählt wird.
-        return random.choice(moeglichkeiten)
+# Überprüfe, ob alle Prozesse abgeschlossen sind
+if all(finish):
+    return False, steps_log  # Kein Deadlock
+else:
+   return True, steps_log # Deadlock
+  

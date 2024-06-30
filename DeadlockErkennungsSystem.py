@@ -91,7 +91,7 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix, nonintera
                 
         if not available_processes:
             break
-if noninteractive:
+        if noninteractive:
             next_process = random.choice(available_processes)
             print(f"Zufällig ausgewählter Prozess: {next_process}")
         else:

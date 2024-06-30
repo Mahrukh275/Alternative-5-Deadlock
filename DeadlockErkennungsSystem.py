@@ -111,7 +111,7 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix, nonintera
             finish[next_process] = True
             steps_log.append(f"Ausgeführt: Prozess {next_process}")
 
-
+    if all(finish):
         # Markieret den ausgewählten Prozess als abgeschlossen und füge ihn zum Schritt-Log hinzu
         finish[next_process] = True
         steps_log.append(f"Ausgeführt: Prozess {next_process}")

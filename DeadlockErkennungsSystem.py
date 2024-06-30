@@ -36,6 +36,11 @@ def read_matrix(file_path):
        with open(file_path,'r') as file:
             # Liest auch alle Zeilen der Datei, entfernt führende und nachfolgende Leerzeichen, teilt sie in einzelne Werte und konvertiert sie in ganzen Zahlen
             matrix = [list(map(int,line.strip().split()))for line in file]
+
+       if any(len(row) != len(matrix[0]) for row in matrix):
+           print("Die Anzahl der Spalten in den Matrizen muss für alle Zeilen gleich sein.")
+           sys.exit(1)
+
        return matrix
     except ValueError:
          print("Fehler beim Konvertieren der Werte, es können nur ganzzahlige Werte eingelesen werden.")

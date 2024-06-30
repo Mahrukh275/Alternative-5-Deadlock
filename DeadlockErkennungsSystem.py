@@ -71,19 +71,10 @@ def matrix_dimension(matrix_name):
             matrix.append(zeile)
 
         return matrix
-def hole_benutzereingabe_matrix(aufforderung):
-    """Erhalte eine Matrix durch Benutzereingabe"""
-    print(aufforderung)
-    zeilen = int(input("Anzahl der Zeilen: "))
-    spalten = int(input("Anzahl der Spalten: "))
-    matrix = []
-    for i in range(zeilen):
-        zeile = list(map(int, input(f"Geben Sie Zeile {i+1} ein: ").split()))
-        matrix.append(zeile)
-    return matrix
+
 
 # Funktion zur Überprüfung auf Deadlock
-def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
+def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix, noninteractive=False):
     #Initialisierung von:
     work = ressourcentypen[:] #dynamisch
     finish = [False]*len(belegungsmatrix) #Liste für den Abschlusszustand der Prozesse
@@ -91,20 +82,32 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix):
 
     while True:
         progress = False
+        available_processes = []
+
           # Index i suchen
         for i in range(len(belegungsmatrix)):
             if not finish[i] and all(anforderungsmatrix[i][j] <= work[j] for j in range(len(ressourcentypen))):
-                finish[i] = True
-                progress = True
-                break
-
-        if not progress:
+                available_processes.append(i)
+                
+        if not available_processes:
             break
-    # Guckt, ob ein Deadlock vorliegt oder nicht
+if noninteractive:
+            next_process = random.choice(available_processes)
+            print(f"Zufällig ausgewählter Prozess: {next_process}")
+        else:
+            print("Mehrere Prozesse können ausgeführt werden:")
+            for process in available_processes:
+                print(f"Prozess {process}")
+            next_process = int(input("Welcher Prozess soll als nächstes ausgeführt werden? "))
+
+        finish[next_process] = True
+        steps_log.append(f"Ausgeführt: Prozess {next_process}")
+
     if all(finish):
-       return False, steps_log # Kein Deadlock
+        return False, steps_log  # Kein Deadlock
     else:
-       return True, steps_log # Deadlock
+        return True, steps_log  # Deadlock
+        
     # wird in steps_log aufgenommen, damit dies in die Logdatei aufgenommen werden kann
 # Hauptfunktion
 def main():
@@ -113,6 +116,7 @@ def main():
     parser.add_argument('-belegungsmatrix', type=str, help='Datei für Belegungsmatrix')
     parser.add_argument('-anforderungsmatrix', type=str, help='Datei für Anforderungsmatrix')
     parser.add_argument('-logdatei', type=str, help='Datei für Logdatei')
+    parser.add_argument('-noninteractive', action='store_true', help='Führt den Simulator im nicht-interaktiven Modus aus')
     # str, weil der Wert des Arguments als Zeichenkette behandelt wird, da ein Dateiname eine Zeichenkette ist
     args = parser.parse_args()
     # damit das Programm die Informationen versteht und verarbeiten kann
@@ -148,7 +152,18 @@ def main():
         print("Die Anzahl der Spalten in den Matrizen muss mit der Länge des Ressourcevektors übereinstimmen.")
         sys.exit(1)
 
-    result, deadlock_log = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix)
+    result, deadlock_log = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix,args.noninteractive)
+    if args.noninteractive:
+        print(f"Ausführung im nicht-interaktiven Modus:")
+        for entry in deadlock_log:
+            print(entry)
+            if logger:
+                logger.info(entry)
+    else:
+        for entry in deadlock_log:
+            print(entry)
+            if logger:
+                logger.info(entry)
     # deadlock_log protokolliert während der Deadlock Überprüfung
     if deadlock_log is None:
         print("Fehler: is_deadlock() hat keinen deadlock_log zurückgegeben.")

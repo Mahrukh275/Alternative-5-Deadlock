@@ -92,16 +92,20 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix, nonintera
         if not available_processes:
             break
         if noninteractive:
+             # Wenn der nicht-interaktive Modus aktiviert ist, wählt einen zufälligen Prozess aus den verfügbaren Prozessen aus
             next_process = random.choice(available_processes)
             print(f"Zufällig ausgewählter Prozess: {next_process}")
         else:
+            # Wenn der interaktive Modus aktiviert ist, fördert den Benutzer auf, einen Prozess auszuwählen
             print("Mehrere Prozesse können ausgeführt werden:")
             for process in available_processes:
                 print(f"Prozess {process}")
             next_process = int(input("Welcher Prozess soll als nächstes ausgeführt werden? "))
-
+        # Markieret den ausgewählten Prozess als abgeschlossen und füge ihn zum Schritt-Log hinzu
         finish[next_process] = True
         steps_log.append(f"Ausgeführt: Prozess {next_process}")
+
+    # Überprüft, ob alle Prozesse abgeschlossen sind
 
     if all(finish):
         return False, steps_log  # Kein Deadlock
@@ -154,16 +158,18 @@ def main():
 
     result, deadlock_log = is_deadlock(ressourcenvektor, belegungsmatrix, anforderungsmatrix,args.noninteractive)
     if args.noninteractive:
+         # Wenn der nicht-interaktive Modus aktiviert ist, gibt die Ausführungsinformationen ohne Benutzerinteraktion aus
         print(f"Ausführung im nicht-interaktiven Modus:")
         for entry in deadlock_log:
-            print(entry)
+            print(entry) # Gibt jeden Eintrag im deadlock_log auf der Konsole aus
             if logger:
-                logger.info(entry)
+                logger.info(entry) # Schreibt jeden Eintrag im deadlock_log in die Logdatei, falls ein logger definiert ist
     else:
+        # Wenn der interaktive Modus aktiviert ist, gibt es  die Ausführungsinformationen mit Benutzerinteraktion aus
         for entry in deadlock_log:
-            print(entry)
+            print(entry) # Gibt jeden Eintrag im deadlock_log auf der Konsole aus
             if logger:
-                logger.info(entry)
+                logger.info(entry) # Schreibt jeden Eintrag im deadlock_log in die Logdatei, falls ein logger definiert ist
     # deadlock_log protokolliert während der Deadlock Überprüfung
     if deadlock_log is None:
         print("Fehler: is_deadlock() hat keinen deadlock_log zurückgegeben.")

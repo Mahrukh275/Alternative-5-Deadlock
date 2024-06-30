@@ -107,10 +107,10 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix, nonintera
         for j in range(len(ressourcentypen)):
             work[j] += belegungsmatrix[next_process][j]
 
-        finish[next_process] = True
-        steps_log.append(f"Ausgeführt: Prozess {next_process}")
+        if not any(finish):
+            finish[next_process] = True
+            steps_log.append(f"Ausgeführt: Prozess {next_process}")
 
-    if not any(finish):
 
         # Markieret den ausgewählten Prozess als abgeschlossen und füge ihn zum Schritt-Log hinzu
         finish[next_process] = True
@@ -119,7 +119,6 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix, nonintera
     # Überprüft, ob alle Prozesse abgeschlossen sind
 
     if all(finish):
-
         return False, steps_log  # Kein Deadlock
     else:
         return True, steps_log  # Deadlock

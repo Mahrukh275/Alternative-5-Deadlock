@@ -38,7 +38,7 @@ def read_matrix(file_path):
             matrix = [list(map(int,line.strip().split()))for line in file]
 
        if any(len(row) != len(matrix[0]) for row in matrix):
-           print("Die Anzahl der Spalten in den Matrizen muss für alle Zeilen gleich sein.")
+           print("Die Spaltenzahl in allen Zeilen der Matrizen muss übereinstimmen..")
            sys.exit(1)
 
        return matrix

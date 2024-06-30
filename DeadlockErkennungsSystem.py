@@ -91,6 +91,7 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix, nonintera
                 
         if not available_processes:
             break
+
         if noninteractive:
             next_process = random.choice(available_processes)
             print(f"Zufällig ausgewählter Prozess: {next_process}")
@@ -100,10 +101,13 @@ def is_deadlock (ressourcentypen, belegungsmatrix, anforderungsmatrix, nonintera
                 print(f"Prozess {process}")
             next_process = int(input("Welcher Prozess soll als nächstes ausgeführt werden? "))
 
+        for j in range(len(ressourcentypen)):
+            work[j] += belegungsmatrix[next_process][j]
+
         finish[next_process] = True
         steps_log.append(f"Ausgeführt: Prozess {next_process}")
 
-    if all(finish):
+    if not any(finish):
         return False, steps_log  # Kein Deadlock
     else:
         return True, steps_log  # Deadlock
